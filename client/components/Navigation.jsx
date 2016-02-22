@@ -1,6 +1,9 @@
 import React from 'react';
 import {Navbar, NavItem, NavDropdown, MenuItem, Nav} from 'react-bootstrap';
 let Navigation = React.createClass({
+    navCoaches(){
+      FlowRouter.go('/user/coaches');
+    },
     render(){
         return(
             <Navbar>
@@ -10,8 +13,8 @@ let Navigation = React.createClass({
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
-                    <NavItem eventKey={1} href="/Coaches">Coaches</NavItem>
-                    <NavItem eventKey={2} href="#">Link</NavItem>
+                    <NavItem eventKey={1} onClick={this.navCoaches}>Coaches</NavItem>
+                    <NavItem eventKey={2} >Link</NavItem>
                     <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                         <MenuItem eventKey={3.1}>Action</MenuItem>
                         <MenuItem eventKey={3.2}>Another action</MenuItem>

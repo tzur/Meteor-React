@@ -7,31 +7,56 @@ import PostListContainer from './containers/postListContainer.jsx';
 import PostPageContainer from './containers/postPageContainer.jsx';
 import CoachesContainer from './containers/CoachesContainer.jsx';
 import Login from './components/login.jsx'
+import CoachContainer from './containers/CoachContainer.jsx';
+import UserProfileContainer from './containers/UserProfileContainer.jsx';
+import Admin from './components/admin/admin.jsx';
 
-
-FlowRouter.route("/", {
-    name: "home",
+FlowRouter.route('/admin', {
+    name: 'admin',
     action() {
         mount(AthleteLayout,{
-             content:() => (<PostListContainer />)});
-    }
-});
-
-
-FlowRouter.route('/post/:_id', {
-    name: 'post',
-    action(params) {
-        mount(AthleteLayout, {
-            content: () => (<PostPageContainer postId={params._id} />)
+            content:() => (<Admin bla="Dogs are crazy" />)
         });
-
     }
 });
-FlowRouter.route('/coaches', {
+//FlowRouter.route("/", {
+//    name: "home",
+//    action() {
+//        mount(AthleteLayout,{
+//             content:() => (<UserProfileContainer />)});
+//    }
+//});
+FlowRouter.route("/coaches/:id",{
+    name: "coaches",
+    action(params){
+        mount(AthleteLayout, {
+            content:() => (<UserProfileContainer userId={params.id}/>)
+        })
+    }
+});
+FlowRouter.route("/athletes/:id", {
+    name: "athletes",
+    action(params){
+        mount(AthleteLayout, {
+            content:() => (<UserProfileContainer userId={params.id}/>)
+        })
+    }
+});
+
+
+FlowRouter.route('/user/coaches', {
     name: 'coaches',
     action(params) {
         mount(AthleteLayout, {
             content: () => (<CoachesContainer />)
+        })
+    }
+});
+FlowRouter.route('/user/coaches/:coachId', {
+    name: 'coach',
+    action(params){
+        mount(AthleteLayout, {
+            content: () => (<CoachContainer />)
         })
     }
 });

@@ -1,18 +1,19 @@
 import React from 'react'
 
 let CoachIcon = React.createClass({
-    changeCoach(e){
-        console.log("Sdfdsf");
-      this.props.changeCoach(this.props.job);
+    navToCoach(){
+        FlowRouter.go('/user/coaches/' + this.props.name);
     },
     render(){
         return(
-        <div className="row row-centered coachBar">
-            <div className="col-md-2 col-centered col-max">
-                <div className="circleBase circleType">{this.props.name} </div>
-                <span><a href="#" value={this.props.job} onClick={this.changeCoach}>{this.props.job}</a></span>
+            <div className="col-sm-2 col-centered">
+                <img className="circleBase circleType" src="http://www.ratemysoccercoach.com/DATA/upload/PNA.gif" />
+                <div className="row">
+                    <div className="col-sm-12">
+                        <span><a onClick={this.navToCoach} value={this.props.name}>{this.props.name}</a></span>
+                    </div>
+                </div>
             </div>
-        </div>
         )
     }
 });

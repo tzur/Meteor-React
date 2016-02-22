@@ -6,7 +6,8 @@ import {ButtonInput} from 'react-bootstrap'
 let CoachForm = React.createClass({
    getInitialState(){
      return{
-         coachName: ""
+         coachName: "",
+         coachJob: "personalCoach"
      }
    },
    handleName(e){
@@ -14,30 +15,42 @@ let CoachForm = React.createClass({
    },
    handleForm(e){
      e.preventDefault();
-     let coachJob;
-     if (this.props.coachJob ==="Personal Coach"){
-       coachJob = 'personalCoach'
-     }else if (this.props.coachJob === "Olympic Coach"){
-       coachJob = 'olympicCoach'
-     }else if (this.props.coachJob === 'Shape Coach'){
-       coachJob = 'shapeCoach'
-     }else if (this.props.coachJob === 'shrink'){
-       coachJob = 'shrink'
-     }
+
 
      this.props.handleForm({
          coachName: this.state.coachName,
-         coachJob: coachJob
+         coachJob: this.state.coachJob
      });
-     this.setState({coachName: "", coachJob: ""});
+     this.setState({coachName: ""});
+   },
+   handleJob(e){
+       this.setState({coachJob: e.target.value});
    },
    render(){
        return(
-           <form onSubmit={this.handleForm}>
-               <Input type="text" label="Coach Name" value={this.state.coachName} placeholder="coach name" onChange={this.handleName} required/>
-               <Input type="text" label="Coach Job" value={this.props.coachJob} disabled />
+           <form onSubmit={this.handleForm} className="row">
+               <div className="row">
+                   <div className="col-sm-4">
+                       <Input type="text" label="Coach Name" value={this.state.coachName} placeholder="coach name"
+                                                                                    onChange={this.handleName} required/>
+                   </div>
+               </div>
+               <div className="row">
+                   <div className="col-sm-4">
+                       <Input type="select" label="Coach Job" onChange={this.handleJob}>
+                           <option value="personalCoach">Personal Coach </option>
+                           <option value="olympicCoach">Olympic Coach </option>
+                           <option value="shapeCoach">Shape Coach </option>
+                           <option value="shrink">Shrink </option>
+                       </Input>
+                   </div>
+               </div>
+               <div className="row">
+                   <div className="col-sm-3">
+                       <ButtonInput type="submit" />
+                   </div>
+               </div>
 
-               <ButtonInput type="submit" />
            </form>
        )
    }

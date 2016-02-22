@@ -28,12 +28,8 @@ li {
     margin-top:20px;
 }
 .circleType {
-    text-align: center;
-    margin-left: 35%;
     width: 50px;
     height: 50px;
-    background: #afc6ff;
-    border: 1px solid #040000;
 }
 .col-centered{
     display:inline-block;
@@ -42,4 +38,44 @@ li {
     text-align:center;
     /* inline-block space fix */
     margin-right:-4px;
+}
+.addCoach{
+    margin-top: 30px;
+}
+.loginBtn{
+    width:100%;
+}
+.loginForm{
+    margin-top: 40px;
+}
+.im-centered{
+    margin: auto;
+    max-width: 300px;
+}
+.profileTitle{
+    margin-left: 10px;
+    text-align: center;
+}
+.profileHeader{
+    margin-top: 40px;
+    border-bottom: 1px solid #7062e2;
+}
+.profileBody{
+    margin-top: 10px;
+}
+.submitEvent{
+    margin-top: 10px;
+    width: 100%;
+}
+.question{
+    margin-top: 10px;
+}
+.eventForm{
+    margin-top: 30px;
+}
+#bootstrapOverride{
+    position: relative;
+}
+#bootstrapOverride .bootstrap-datetimepicker-widget{
+    right: 0 !important;
 }

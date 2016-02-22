@@ -1,6 +1,8 @@
 import React from 'react';
-import Login from '../components/login.jsx';
+import LoginSignUp from '../containers/LoginSignUpContainer.jsx';
 import Navigation from '../components/Navigation.jsx';
+import signupUser from '../modules/modules';
+import Constants from '../constants';
 //import loginState from '../containers/LoginContainer';
 
 let AthleteLayout = React.createClass({
@@ -11,31 +13,36 @@ let AthleteLayout = React.createClass({
             user: Meteor.user()
         }
     },
-    handleLogin(options){
-        Accounts.createUser({
-            username: options.username,
-            password: options.password,
-            email: options.email
-        }, (err)=>{
+    handleSignup(options){
+        signupUser(options,(err, result)=>{
             if (err){
                 console.log(err)
             }else{
-                Meteor.loginWithPassword(options.email, options.password, (error)=>{
-                    if (error){
-                        console.log(error)
-                    }else{
-                        this.setState({user: Meteor.user()})
-                    }
-                });
+                console.log(result)
             }
         })
     },
+    handleLogin(options, callback){
+      Meteor.loginWithPassword(options.email, options.password, (error) =>{
+          if (error){
+              console.log(error);
+              callback(error);
+          }else{
+              this.setState({user: Meteor.user()});
+          }
+      })
+    },
     render(){
         let component;
-        if (this.data.user){
-            component = React.cloneElement(this.props.content(),{user: this.data.user})
+        if (this.data.user && this.data.user.profile){
+            if (this.data.user.profile.userType === Constants.ATHLETE && this.data.user.username != "zurzzzz") {
+                FlowRouter.go('/athletes/' + Meteor.userId());
+            }else if(this.data.user.username != "zurzzzz"){
+                FlowRouter.go('/coaches/' + Meteor.userId());
+            }
+            component = React.cloneElement(this.props.content(),{userId: this.data.user._id})
         }else{
-            component= <Login handleLogin={this.handleLogin} />
+            component= <LoginSignUp handleSignup={this.handleSignup} handleLogin={this.handleLogin} />
         }
         return(
             <div>

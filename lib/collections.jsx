@@ -1,5 +1,6 @@
 Posts = new Mongo.Collection('posts');
 Coaches = new Mongo.Collection('coaches');
+JudoTrainings = new Mongo.Collection('judoTrainings');
 if(Meteor.isServer) {
     Posts.remove({});
     Posts.insert({
