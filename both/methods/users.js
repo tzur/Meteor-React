@@ -59,6 +59,18 @@ Meteor.methods({
         }
         return "success";
 
+    },
+    addAthletesArrayToCoach(athletesArray){
+        let result;
+        try{
+            result = Meteor.users.update({_id: Meteor.userId()}, {
+                $addToSet: {"profile.athletes": {$each: athletesArray}}
+            })
+        }catch(e){
+            throw e;
+        }
+        return result;
+
     }
 
 });

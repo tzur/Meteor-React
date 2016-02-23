@@ -1,6 +1,9 @@
 import React from 'react';
-import {Input} from 'react-bootstrap';
+import {Input,Row, Col} from 'react-bootstrap';
 let QuestionForm = React.createClass({
+   PropTypes: {
+      addQuestion: React.PropTypes.func.isRequired
+   },
    getInitialState(){
      return {
          body: null
@@ -11,14 +14,26 @@ let QuestionForm = React.createClass({
    },
    handleSubmit(e){
        e.preventDefault();
-       this.props.addQuestion({body: this.state.body});
-       this.setState({body: ""});
+       console.log("sdf");
+       if (this.state.body != "" && this.state.body != null){
+           this.props.addQuestion({body: this.state.body});
+           this.setState({body: ""});
+       }
    },
    render(){
        return(
            <div>
-               <Input label="Enter your question" type="text" value={this.state.body} onChange={this.handleBody}/>
-               <button className="btn btn-default" onClick={this.handleSubmit}>Add Question</button>
+
+               <Row>
+                   <Col md={10} xs={10} className="questionBody">
+                       <Input  label="Enter your question" type="text" value={this.state.body} onChange={this.handleBody}/>
+                   </Col>
+                   <Col md={1} xs={1} className="addQuestionBtn">
+                       <button className="btn btn-success" onClick={this.handleSubmit}>+</button>
+                   </Col>
+               </Row>
+
+
            </div>
        )
    }

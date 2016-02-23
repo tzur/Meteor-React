@@ -22,7 +22,6 @@ let Event = React.createClass({
                </Row>
            </Grid>
 
-
        )
    }
 });

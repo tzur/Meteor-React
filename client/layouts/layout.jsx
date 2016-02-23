@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginSignUp from '../containers/LoginSignUpContainer.jsx';
 import Navigation from '../components/Navigation.jsx';
-import signupUser from '../modules/modules';
+import {signupUser} from '../modules/modules';
 import Constants from '../constants';
 //import loginState from '../containers/LoginContainer';
 
@@ -13,25 +13,7 @@ let AthleteLayout = React.createClass({
             user: Meteor.user()
         }
     },
-    handleSignup(options){
-        signupUser(options,(err, result)=>{
-            if (err){
-                console.log(err)
-            }else{
-                console.log(result)
-            }
-        })
-    },
-    handleLogin(options, callback){
-      Meteor.loginWithPassword(options.email, options.password, (error) =>{
-          if (error){
-              console.log(error);
-              callback(error);
-          }else{
-              this.setState({user: Meteor.user()});
-          }
-      })
-    },
+
     render(){
         let component;
         if (this.data.user && this.data.user.profile){

@@ -1,4 +1,4 @@
-let signupUser = (options, callback)=>{
+export function signupUser(options, callback){
     Accounts.createUser({
     username: options.username,
     password: options.password,
@@ -22,5 +22,13 @@ let signupUser = (options, callback)=>{
             });
         }
     })
-};
-export default signupUser;
+}
+export function insertAthletesToCoach(athletesArray, callback){
+    Meteor.call('addAthletesArrayToCoach', athletesArray, (err,result)=>{
+        if(err){
+            callback(err);
+        }else{
+            callback(undefined, result);
+        }
+    })
+}
