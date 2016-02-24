@@ -4,10 +4,10 @@ import CreateEventMain from '../components/events/admin/CreateEventForm.jsx';
 let CreateEventContainer = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData(){
-      Meteor.subscribe('coachAthletes');
+        Meteor.subscribe('coachAthletes', Meteor.user());
         if (Meteor.user().profile.athletes){
             return{
-                coachAthletes: Meteor.users.find({_id: {$in: Meteor.user().profile.athletes}})
+                coachAthletes: Meteor.users.find({_id: {$in: Meteor.user().profile.athletes}}).fetch()
             }
         }else{
             return{

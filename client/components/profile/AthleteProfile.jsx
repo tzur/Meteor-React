@@ -20,6 +20,12 @@ let AthleteProfile = React.createClass({
     handleCompetition(e){
         this.setState({competition: e.target.checked});
     },
+    componentWillMount(){
+        if (window.location.href.indexOf('/athletes') === -1|| window.location.href.indexOf('/coaches') > -1){
+            history.pushState(null, null, "/athletes/"+ Meteor.userId() );
+        }
+
+    },
     render(){
         let widgetEventData = [];
         if (this.state.judoTraining && this.props.user.profile.events && this.props.user.profile.events.judo){

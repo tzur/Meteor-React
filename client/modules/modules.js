@@ -32,3 +32,23 @@ export function insertAthletesToCoach(athletesArray, callback){
         }
     })
 }
+export function EventFactory(trainingType, location, date, questions){
+    console.log("factory");
+    this.trainingType = trainingType;
+    this.location = location;
+    this.date = date;
+    this.questions = questions;
+}
+EventFactory.prototype.save = function(athletes, category ,callback){
+    if (!athletes || !category){
+        callback(new Error("No athletes or category were given to the create function."))
+    }
+    let self = this;
+    Meteor.call('addEvent', self, athletes ,category,(err,result)=>{
+        if (err){
+            callback(err)
+        }else{
+            callback(null, result);
+        }
+    })
+};

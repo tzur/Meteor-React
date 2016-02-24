@@ -1,14 +1,24 @@
 
-let eventToMongo = (category)=>{
-    return "profile.events." + category;
+let addToSetForEvent = (category, eventObj)=>{
+    let setModifier = {$addToSet: {}};
+    console.log(eventObj);
+    setModifier.$addToSet['profile.event.' + category] = eventObj;
+    return setModifier;
 };
 Meteor.methods({
     addUserType(userType){
         check(userType, String);
         try{
-            Meteor.users.update({_id: Meteor.userId()}, {
-                $set: {"profile.userType": userType}
-            })
+            if (userType ==='athlete'){
+                Meteor.users.update({_id: Meteor.userId()}, {
+                    $set: {"profile.userType": userType}
+                })
+            }else{
+                Meteor.users.update({_id: Meteor.userId()}, {
+                    $set: {"profile.userType": userType, "profile.athletes": []}
+                })
+            }
+
         }catch(e){
             throw e;
         }
@@ -48,12 +58,14 @@ Meteor.methods({
         }
 
     },
-    addEvent(eventObj, category){
-        let position = eventToMongo(category);
+    addEvent(eventObj,athletes, category){
+        check(eventObj, Object);
+        check(athletes, Array);
+        check(category, String);
+        let addToSetModifier = addToSetForEvent(category, eventObj);
         try{
-            Meteor.users.update({_id: eventObj.userId}, {
-                $addToSet: {position: eventObj}
-            })
+            console.log(athletes);
+            Meteor.users.update({_id: {$in: athletes}}, addToSetModifier, { multi: true });
         }catch(e){
             throw e;
         }

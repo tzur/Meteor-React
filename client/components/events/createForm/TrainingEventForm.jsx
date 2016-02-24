@@ -5,20 +5,21 @@ import QuestionForm from '../createForm/QuestionForm.jsx';
 import moment from "moment";
 import QuestionContainer from './QuestionContainer.jsx';
 import AthletesSelect from '../admin/AthletesSelect.jsx';
+
+import Constants from '../../../constants';
 let TrainingEventForm = React.createClass({
     PropTypes: {
-        coachAthletes: React.PropTypes.array.isRequired
+        coachAthletes: React.PropTypes.array.isRequired,
+        handleSubmit: React.PropTypes.func.isRequired
     },
     getInitialState(){
       return {
           question: null,
-          event: {
-              athletes: [],
-              trainingType: null,
-              location: null,
-              questions: [],
-              date:"2016-02-23 7:30 am"
-          }
+          athletes: [],
+          trainingType: "",
+          location: null,
+          questions: [],
+          date:"2016-02-23 7:30 am"
       }
     },
     handleQuestionMode(e){
@@ -34,26 +35,26 @@ let TrainingEventForm = React.createClass({
     handleNewQuestion(e){
       e.preventDefault();
       if (this.state.question != null && this.state.question != ""){
-          let currentQuestions = this.state.event.questions;
+          let currentQuestions = this.state.questions;
           currentQuestions.push({body: this.state.question});
-          this.setState({"event.questions": currentQuestions, question: ""});
+          this.setState({questions: currentQuestions, question: ""});
       }
     },
     handleType(e){
-      this.setState({"event.trainingType": e.target.value})
+      this.setState({trainingType: e.target.value})
     },
     handleLocation(e){
-      this.setState({"event.location": e.target.value});
+      this.setState({location: e.target.value});
     },
     handleDate(newDate){
       this.setState({date: newDate});
     },
     handleAthleteSelect(e){
-        let currentState = this.state.event.athletes;
+        let currentState = this.state.athletes;
         let athleteIndex = 0;
         if (e.target.checked){
             currentState.push(e.target.value);
-            this.setState({"event.athletes": currentState});
+            this.setState({athletes: currentState});
         }else{
             for (athleteIndex; athleteIndex< currentState.length; athleteIndex++){
                 if (currentState[athleteIndex] === e.target.value){
@@ -63,30 +64,48 @@ let TrainingEventForm = React.createClass({
             //Safety check
             if (athleteIndex < currentState.length && currentState[athleteIndex] === e.target.value){
                 currentState.splice(athleteIndex,1);
-                this.setState({"event.athletes": currentState});
+                this.setState({athletes: currentState});
             }else{
                 console.error("Some weird shit just happened");
             }
         }
     },
+    clearForm(){
+      this.setState({
+          question: null,
+          athletes: [],
+          trainingType: "",
+          location: null,
+          questions: [],
+          date:"2016-02-23 7:30 am"
+      })
+    },
     handleSubmit(e){
       e.preventDefault();
-      console.log(this.state.event.date);
-      console.log(this.state.event.questions);
-      console.log(this.state.event.athletes);
+      this.props.handleSubmit(this.state.athletes, this.state.trainingType, this.state.location,
+                                this.state.date, this.state.questions, Constants.TRAINING,
+          (err, result)=>{
+              if (err){
+                  window.alert("Something bad happend");
+              }else{
+                  this.clearForm();
+              }
+          });
+
     },
     render(){
         const format = "YYYY-MM-DD h:mm a";
         const inputFormat = "DD/MM/YYYY h:mm a";
-        const date = this.state.event.date;
+        const date = this.state.date;
         return(
             <Grid>
                 <div className="im-centered">
                     <form  onSubmit={this.handleSubmit} className="createEventForm">
-                        <AthletesSelect athletes={this.props.coachAthletes} handleAthleteSelect={this.handleAthleteSelect} />
+                        <span className="im-bold">Select your Athletes </span>
+                        <AthletesSelect athletes={this.props.coachAthletes} checkedArray={this.state.athletes} handleAthleteSelect={this.handleAthleteSelect} />
                         <Row>
                             <Col md={12} xs={12}>
-                                <Input type="select" label="Choose training type" placeholder="please select" onChange={this.handleType} required>
+                                <Input type="select" label="Choose the training type" value={this.state.trainingType} onChange={this.handleType} required>
                                     <option value="">Please select</option>
                                     <option value="judo">ג'ודו</option>
                                     <option value="weightLift">כוח</option>
@@ -96,7 +115,7 @@ let TrainingEventForm = React.createClass({
                         </Row>
                         <Row>
                             <Col md={12} xs={12}>
-                                <Input type="text" label="Location" placeholder="Location" onChange={this.handleLocation} />
+                                <Input type="text" label="Location" value={this.state.location} placeholder="Location" onChange={this.handleLocation} />
                             </Col>
                         </Row>
                         <Row>
@@ -107,7 +126,7 @@ let TrainingEventForm = React.createClass({
                                 </div>
                             </Col>
                         </Row>
-                        {this.state.event.questions.length? <QuestionContainer questions={this.state.event.questions} /> : null}
+                        {this.state.questions.length? <QuestionContainer questions={this.state.questions} /> : null}
                         <Row className="margin-top">
                             <Col md={10} xs={10} className="questionBody">
                                 <Input  label="Enter your question" type="text" value={this.state.question} onChange={this.handleQuestion}/>

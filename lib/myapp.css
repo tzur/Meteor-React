@@ -141,3 +141,10 @@ li {
     width: 50%;
     margin-top: 10px;
 }
+.half-width{
+    width:50%
+}
+.athlete-select{
+    margin-left: 20px;
+    padding-bottom: 10px;
+}

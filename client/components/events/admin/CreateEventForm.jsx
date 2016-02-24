@@ -6,6 +6,8 @@ import RoutineEventForm from '../createForm/RoutineEventForm.jsx';
 import PhysicalStateEventForm from '../createForm/PhysicalStateEventForm.jsx';
 import TrainingEventForm from '../createForm/TrainingEventForm.jsx';
 import createEvent from '../../../../both/modules/createEvent';
+import {EventFactory} from '../../../modules/modules';
+
 
 let CreateEventForm = React.createClass({
     PropTypes:{
@@ -43,14 +45,15 @@ let CreateEventForm = React.createClass({
         this.turnOfState();
         this.setState({physicalState: true});
     },
-    handleSubmit(options, category){
-        createEvent(options, category, (err, result)=>{
-            if(err){
-                console.log(err)
-            }else{
-                console.log(result);
-            }
-        })
+    handleSubmit(athletes,trainingType, location,date, questions, category, callback){
+       let Event = new EventFactory(trainingType, location,date,questions);
+       Event.save(athletes, category, (err, result)=>{
+           if (err){
+               callback(err)
+           }else{
+               callback(null, result);
+           }
+       });
     },
     componentWillMount(){
       if (Meteor.user().profile.userType === Constants.ATHLETE){

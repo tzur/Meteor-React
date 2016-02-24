@@ -12,7 +12,7 @@ Meteor.publish('allAthletes', ()=>{
    return Meteor.users.find({"profile.userType": "athlete"}, {fields: {profile: 1, username: 1}});
 });
 Meteor.publish('coachAthletes', (coach)=>{
-    console.log("All athletes publish");
+    console.log("coachAthletes publish");
     return Meteor.users.find({_id: {$in: coach.profile.athletes}}, {fields: {profile: 1, username: 1}});
 });
 

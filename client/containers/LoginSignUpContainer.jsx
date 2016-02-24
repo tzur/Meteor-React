@@ -2,6 +2,10 @@ import React from 'react';
 import Login from '../components/login.jsx'
 import Signup from '../components/Signup.jsx'
 let LoginSignUp = React.createClass({
+    PropTypes: {
+      handleLogin: React.PropTypes.func.isRequired,
+      handleSignup: React.PropTypes.func.isRequired   
+    },
     getInitialState(){
         return {
             login: true

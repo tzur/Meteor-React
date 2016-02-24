@@ -32,6 +32,11 @@ let Signup = React.createClass({
             userType: this.state.userType
         })
     },
+    componentWillMount(){
+        if (window.location.href.indexOf('/signup') === -1){
+            history.pushState(null, null,'/signup');
+        }
+    },
     render(){
         return(
             <div className="im-centered">
@@ -74,7 +79,7 @@ let Signup = React.createClass({
                     </div>
                     <div className="row">
                         <div className="col-sm-12">
-                            <a href="#" onClick={this.props.handleSwitch}>Already have an account? switch to login </a>                        </div>
+                            <a href='' onClick={this.props.handleSwitch}>Already have an account? switch to login </a>                        </div>
                     </div>
 
                 </form>

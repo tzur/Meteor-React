@@ -6,6 +6,7 @@ let CoachAthletesContainer = React.createClass({
    },
    mixins: [ReactMeteorData],
    getMeteorData(){
+       console.log("im here");
       let handler = Meteor.subscribe('coachAthletes', this.props.coach);
        return {
            ready: handler.ready(),

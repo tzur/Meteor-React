@@ -4,6 +4,9 @@ import {ButtonInput} from 'react-bootstrap';
 import {Alert} from 'react-bootstrap'
 
 let Login = React.createClass({
+    PropTypes: {
+        handleLogin: React.PropTypes.func.isRequired
+    },
     getInitialState(){
         return{
             username: '',
@@ -12,6 +15,12 @@ let Login = React.createClass({
             userType: '',
             wrongAuth: false
         }
+    },
+    componentWillMount(){
+        if (window.location.href.indexOf('/login') === -1){
+            history.pushState(null, null,'/login');
+        }
+
     },
     handlePassword(e){
         this.setState({password: e.target.value})
@@ -61,7 +70,7 @@ let Login = React.createClass({
                     </div>
                     <div className="row">
                         <div className="col-sm-12">
-                            <a  href='#' onClick={this.props.handleSwitch}>Doesn't have account? Sign up </a>
+                            <a  href='' onClick={this.props.handleSwitch}>Doesn't have account? Sign up </a>
                         </div>
                     </div>
                 </form>
