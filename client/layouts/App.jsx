@@ -6,41 +6,45 @@ import UserProfileContainer from '../containers/UserProfileContainer.jsx';
 import Constants from '../constants';
 //TODO CHANGE TO REACT-ROUTER! DELETE ALL THIS FUCKING PAGE.
 let App = React.createClass({
-    mixins: [ ReactMeteorData ],
-    getMeteorData() {
-        return {
-            loggingIn: Meteor.loggingIn(),
-            hasUser: !!Meteor.user(),
-            isPublic( route ) {
-                let publicRoutes = [
-                    'login'
-                ];
-                return publicRoutes.indexOf( route ) > -1;
-            },
-            isCoach( route){
-                let coachRoutes = [
-                    'createEvent',
-                    'coachProfile'
-                ];
-                return coachRoutes.indexOf(route) > -1;
-            },
-            isAthlete( route ){
-                let athleteRoutes = [
-                    'athleteProfile'
-                ];
-                return athleteRoutes.indexOf(route) > -1
-            },
-            canView() {
-                console.log("Sdf");
-                if (this.isCoach(FlowRouter.current().route.name) && Meteor.user().profile){
-                    return (Meteor.user().profile.userType != Constants.ATHLETE)
-                }else if (this.isAthlete(FlowRouter.current().route.name && Meteor.user().profile)){
-                    return (Meteor.user().profile.userType === Constants.ATHLETE);
-                }else{
-                    return this.isPublic( FlowRouter.current().route.name ) || !!Meteor.user();
-                }
-            }
-        };
+    //mixins: [ ReactMeteorData ],
+    //getMeteorData() {
+    //    return {
+    //        loggingIn: Meteor.loggingIn(),
+    //        hasUser: !!Meteor.user(),
+    //        isPublic( route ) {
+    //            let publicRoutes = [
+    //                'login'
+    //            ];
+    //            return publicRoutes.indexOf( route ) > -1;
+    //        },
+    //        isCoach( route){
+    //            let coachRoutes = [
+    //                'createEvent',
+    //                'coachProfile'
+    //            ];
+    //            return coachRoutes.indexOf(route) > -1;
+    //        },
+    //        isAthlete( route ){
+    //            let athleteRoutes = [
+    //                'athleteProfile'
+    //            ];
+    //            return athleteRoutes.indexOf(route) > -1
+    //        },
+    //        canView() {
+    //            console.log("Sdf");
+    //            if (this.isCoach(FlowRouter.current().route.name) && Meteor.user().profile){
+    //                return (Meteor.user().profile.userType != Constants.ATHLETE)
+    //            }else if (this.isAthlete(FlowRouter.current().route.name && Meteor.user().profile)){
+    //                return (Meteor.user().profile.userType === Constants.ATHLETE);
+    //            }else{
+    //                return this.isPublic( FlowRouter.current().route.name ) || !!Meteor.user();
+    //            }
+    //        }
+    //    };
+    //},
+    PropTypes: {
+      loggingIn: React.PropTypes.bool.isRequired,
+      hasUser: React.PropTypes.bool.isRequired
     },
     loading() {
         return <div className="loading"></div>;
@@ -72,21 +76,38 @@ let App = React.createClass({
             }
         })
     },
-    getView()
-    {
-        return (this.data.canView()? this.props.content() :
-            <LoginSignUpContainer handleLogin={this.handleLogin} handleSignup={this.handleSignup}/>);
+    canView(){
+        if (this.props.hasUser) {
+            if (window.location.href.indexOf('/coaches') > -1) {
+                return Meteor.user().profile.userType != Constants.ATHLETE;
+            } else if (window.location.href.indexOf('/athletes') > -1) {
+                return Meteor.user().profile.userType === Constants.ATHLETE;
+            }else if (window.location.href.indexOf('/login') > -1) {
+                return true;
+            }
+        }else{
+            return false
+        }
+
 
     },
-    componentWillMount(){
-
+    getContent(){
+        if (this.props.content() === null){
+            return <UserProfileContainer />
+        }else{
+            return this.props.content();
+        }
+    },
+    getView()
+    {
+        return (this.canView()? this.getContent() :
+            <LoginSignUpContainer handleLogin={this.handleLogin} handleSignup={this.handleSignup}/>);
     },
     render(){
         return(
             <div>
                 <Navigation />
-                {this.data.hasUser? this.getView() :
-                    <LoginSignUpContainer handleLogin={this.handleLogin} handleSignup={this.handleSignup} />}
+                {this.props.loggingIn?  this.loading() : this.getView()}
             </div>
         )
     }

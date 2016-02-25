@@ -8,14 +8,14 @@ import CoachesContainer from './../containers/CoachesContainer.jsx';
 import LoginSignUpContainer from './../containers/LoginSignUpContainer.jsx'
 import CoachContainer from './../containers/CoachContainer.jsx';
 import UserProfileContainer from './../containers/UserProfileContainer.jsx';
-import App from '../layouts/App.jsx';
+import AppContainer from '../containers/AppContainer.jsx';
 
 const publicRoutes = FlowRouter.group({name: 'public'});
 
 publicRoutes.route('/login', {
    name: 'login',
    action(){
-       mount(App,{
+       mount(AppContainer,{
            content: ()=> (null)
        })
    }
@@ -23,8 +23,8 @@ publicRoutes.route('/login', {
 publicRoutes.route('/', {
     name: "general",
     action(){
-        mount(App, {
-            content:() => (<UserProfileContainer />)
+        mount(AppContainer, {
+            content:() => (null)
         })
     }
 });
