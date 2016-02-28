@@ -89,16 +89,11 @@ li {
 
 .panel{
     margin-top: 10px;
-    background-color: #F4F2F2;
-    border-color: #D8E0DE;
 }
 .panel-body{
     padding: 0 15px 5px;
 }
-.panel-heading{
-    background-color:#F4F2F2 !important;
-    border-color: #F4F2F2 !important;
-}
+
 #bootstrapOverride{
     position: relative;
 }
@@ -142,9 +137,16 @@ li {
     margin-top: 10px;
 }
 .half-width{
-    width:50%
+    width:50%;
+}
+.full-width{
+    width: 100%;
 }
 .athlete-select{
     margin-left: 20px;
     padding-bottom: 10px;
+}
+.zeroPadding{
+    padding-left: 0;
+    padding-right: 0;
 }

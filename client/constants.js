@@ -8,10 +8,15 @@ let Constants = {
     OLYMPIC_COACH: "olympicCoach",
     COMPETITION: "competition",
     FITNESS: "fitness",
-    JUDO: "judo",
     TRAINING: "training",
     ROUTINE: "routine",
-    PHYSICAL_STATE: "physicalState"
+    PHYSICAL_STATE: "physicalState",
+    TRAININGS: {
+        JUDO: "judo",
+        WEIGHT_LIFT: "weightLift",
+        RUNNING: "running"
+    }
+
 
 };
 export default Constants;

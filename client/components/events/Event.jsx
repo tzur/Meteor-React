@@ -13,7 +13,7 @@ let Event = React.createClass({
                        <Panel bsStyle="primary" collapsible defaultExpanded header={this.props.event.title}>
                            <Accordion>
                                {this.props.event.questions? this.props.event.questions.map(question=>{
-                                   return (<Question question={question} />)
+                                   return (<Question key={Math.random()} question={question} />)
                                }): null}
                            </Accordion>
                            { this.props.event.date}

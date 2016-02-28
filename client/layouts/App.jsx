@@ -6,42 +6,6 @@ import UserProfileContainer from '../containers/UserProfileContainer.jsx';
 import Constants from '../constants';
 //TODO CHANGE TO REACT-ROUTER! DELETE ALL THIS FUCKING PAGE.
 let App = React.createClass({
-    //mixins: [ ReactMeteorData ],
-    //getMeteorData() {
-    //    return {
-    //        loggingIn: Meteor.loggingIn(),
-    //        hasUser: !!Meteor.user(),
-    //        isPublic( route ) {
-    //            let publicRoutes = [
-    //                'login'
-    //            ];
-    //            return publicRoutes.indexOf( route ) > -1;
-    //        },
-    //        isCoach( route){
-    //            let coachRoutes = [
-    //                'createEvent',
-    //                'coachProfile'
-    //            ];
-    //            return coachRoutes.indexOf(route) > -1;
-    //        },
-    //        isAthlete( route ){
-    //            let athleteRoutes = [
-    //                'athleteProfile'
-    //            ];
-    //            return athleteRoutes.indexOf(route) > -1
-    //        },
-    //        canView() {
-    //            console.log("Sdf");
-    //            if (this.isCoach(FlowRouter.current().route.name) && Meteor.user().profile){
-    //                return (Meteor.user().profile.userType != Constants.ATHLETE)
-    //            }else if (this.isAthlete(FlowRouter.current().route.name && Meteor.user().profile)){
-    //                return (Meteor.user().profile.userType === Constants.ATHLETE);
-    //            }else{
-    //                return this.isPublic( FlowRouter.current().route.name ) || !!Meteor.user();
-    //            }
-    //        }
-    //    };
-    //},
     PropTypes: {
       loggingIn: React.PropTypes.bool.isRequired,
       hasUser: React.PropTypes.bool.isRequired
@@ -54,11 +18,11 @@ let App = React.createClass({
             if (err){
                 console.error(err)
             }else{
-                if (Meteor.user().profile.userType === Constants.ATHLETE){
-                    FlowRouter.go('/athletes/' + Meteor.userId());
-                }else{
-                    FlowRouter.go('/coaches/'+ Meteor.userId());
-                }
+                //if (Meteor.user().profile.userType === Constants.ATHLETE){
+                //    FlowRouter.go('/athletes/' + Meteor.userId());
+                //}else{
+                //    FlowRouter.go('/coaches/'+ Meteor.userId());
+                //}
             }
         })
     },
@@ -78,7 +42,13 @@ let App = React.createClass({
     },
     canView(){
         if (this.props.hasUser) {
-            if (window.location.href.indexOf('/coaches') > -1) {
+            if (FlowRouter.current() && FlowRouter.current().route.path.indexOf('/coaches') > -1) {
+                return Meteor.user().profile.userType != Constants.ATHLETE;
+            } else if (FlowRouter.current() && FlowRouter.current().route.path.indexOf('/athletes') > -1) {
+                return Meteor.user().profile.userType === Constants.ATHLETE;
+            }else if (FlowRouter.current() && FlowRouter.current().route.path.indexOf('/login') > -1) {
+                return true;
+            }else if (window.location.href.indexOf('/coaches') > -1) {
                 return Meteor.user().profile.userType != Constants.ATHLETE;
             } else if (window.location.href.indexOf('/athletes') > -1) {
                 return Meteor.user().profile.userType === Constants.ATHLETE;

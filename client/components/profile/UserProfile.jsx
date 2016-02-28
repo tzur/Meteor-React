@@ -1,7 +1,7 @@
 import React from 'react'
-import Constants from '../constants';
-import AthleteProfile from './profile/AthleteProfile.jsx';
-import CoachProfile from './profile/CoachProfile.jsx';
+import Constants from '../../constants';
+import AthleteProfile from './AthleteProfile.jsx';
+import CoachProfile from './CoachProfile.jsx';
 
 let UserProfile = React.createClass({
 

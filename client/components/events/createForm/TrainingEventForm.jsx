@@ -5,7 +5,6 @@ import QuestionForm from '../createForm/QuestionForm.jsx';
 import moment from "moment";
 import QuestionContainer from './QuestionContainer.jsx';
 import AthletesSelect from '../admin/AthletesSelect.jsx';
-
 import Constants from '../../../constants';
 let TrainingEventForm = React.createClass({
     PropTypes: {
@@ -107,9 +106,9 @@ let TrainingEventForm = React.createClass({
                             <Col md={12} xs={12}>
                                 <Input type="select" label="Choose the training type" value={this.state.trainingType} onChange={this.handleType} required>
                                     <option value="">Please select</option>
-                                    <option value="judo">ג'ודו</option>
-                                    <option value="weightLift">כוח</option>
-                                    <option value="run">ריצה</option>
+                                    <option value={Constants.TRAININGS.JUDO}>ג'ודו</option>
+                                    <option value={Constants.TRAININGS.WEIGHT_LIFT}>כוח</option>
+                                    <option value={Constants.TRAININGS.RUNNING}>ריצה</option>
                                 </Input>
                             </Col>
                         </Row>

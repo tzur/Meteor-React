@@ -8,13 +8,13 @@ let Question = React.createClass({
         let answerComponent;
         if (this.props.question.answers){
             answerComponent = this.props.question.answers.map(answer => {
-                return <Answer answer={answer} />
+                return <Answer answer="doggg" />
             })
         }else{
             answerComponent = null;
         }
         return(
-            <Panel header={this.props.question.body}>{answerComponent}</Panel>
+            <Panel header={this.props.question.body}>Sample Answer</Panel>
         )
     }
 });

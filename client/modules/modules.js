@@ -32,12 +32,23 @@ export function insertAthletesToCoach(athletesArray, callback){
         }
     })
 }
-export function EventFactory(trainingType, location, date, questions){
+export function EventFactory(type, location, date, questions){
     console.log("factory");
-    this.trainingType = trainingType;
+    this.type = type;
     this.location = location;
     this.date = date;
     this.questions = questions;
+}
+export function getSelectedEvents(category, subCategory, user){
+    let selector = "profile.event." + category;
+    let eventArray = [];
+    user[selector].forEach(event=>{
+        if (event.type === subCategory){
+            eventArray.push(event)
+        }
+    });
+
+    return eventArray;
 }
 EventFactory.prototype.save = function(athletes, category ,callback){
     if (!athletes || !category){
