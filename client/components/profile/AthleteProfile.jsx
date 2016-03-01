@@ -14,29 +14,50 @@ let AthleteProfile = React.createClass({
             training: false,
             competition: false,
             fitness: false,
-            events: []
+            events: [],
+            selectedWidgets: []
         }
     },
     clearState(){
       this.setState({
           training: false,
           competition: false,
-          fitness: false
+          fitness: false,
+          events: [],
+          selectedWidgets: []
 
       })
     },
     handleTraining(e){
+        let newState;
+        if (this.state.training){
+            newState = false;
+        }else{
+            newState = true;
+        }
         this.clearState();
-        this.setState({training: e.target.checked});
+        this.setState({training: newState});
     },
         handleFitness(e){
+            let newState;
+            if (this.state.fitness){
+                newState = false;
+            }else{
+                newState = true;
+            }
             this.clearState();
-            this.setState({fitness: e.target.checked});
+            this.setState({fitness: newState});
 
     },
     handleCompetition(e){
+        let newState;
+        if (this.state.competition){
+            newState = false;
+        }else{
+            newState = true;
+        }
         this.clearState();
-        this.setState({competition: e.target.checked});
+        this.setState({competition: newState});
     },
     componentWillMount(){
         if (window.location.href.indexOf('/athletes') === -1|| window.location.href.indexOf('/coaches') > -1){
@@ -47,30 +68,30 @@ let AthleteProfile = React.createClass({
         if (this.state.training){
             return [
                 {
-                    name: "ג'ודו",
+                    name: "Judo",
                     value: Constants.TRAININGS.JUDO
                 },
                 {
-                    name: "כוח",
+                    name: "Weight Lift",
                     value: Constants.TRAININGS.WEIGHT_LIFT
                 },
                 {
-                    name: "ריצה",
+                    name: "Running",
                     value: Constants.TRAININGS.RUNNING
                 }
             ]
         }else if (this.state.fitness){
             return [
                 {
-                    name: "יוגה",
+                    name: "Yoga",
                     value: Constants.JUDO
                 },
                 {
-                    name: "פיזיותרפיה",
+                    name: "Psychiatrist",
                     value: Constants.FITNESS
                 },
                 {
-                    name: "מסאג'",
+                    name: "Massage",
                     value: Constants.ROUTINE
                 }
             ]
@@ -89,9 +110,27 @@ let AthleteProfile = React.createClass({
     },
     handleWidgetSelect(widget){
         let tempEvents = [];
+        let currentWidgets = this.state.selectedWidgets;
+        let widgetIndex = 0;
+        let found;
+
+        while (widgetIndex < currentWidgets.length){
+            if (currentWidgets[widgetIndex] === widget){
+                found = true;
+                break;
+            }
+            widgetIndex++;
+        }
+        if (found){
+            currentWidgets.splice(widgetIndex, 1);
+        }else{
+            currentWidgets.push(widget);
+        }
+        this.setState({selectedWidgets: currentWidgets});
+
         if (this.props.user.profile.event[this.getCategory()]){
             this.props.user.profile.event[this.getCategory()].forEach(event=>{
-                if (event.type === widget){
+                if (currentWidgets.indexOf(event.type)> -1){
                     tempEvents.push(event)
                 }
             })
@@ -102,28 +141,39 @@ let AthleteProfile = React.createClass({
         return(
             <div>
                 <ProfileHeader username={this.props.user.username} />
-                <Grid className="profileBody">
-                    <Row>
-                        <Col md={4} xs={4}>
-                            <Input type="checkbox" label="Judo Trainings" onClick={this.handleTraining} />
+                <Grid className="profileBody" fluid>
+                    <Row className="show-grid">
+                        <Col md={4} xs={4} className="firstCategory" style={{cursor: 'pointer'}} onClick={this.handleTraining}>
+                            <p className="categoryText"> Judo Trainings</p>
                         </Col>
-                        <Col md={4} xs={4}>
-                            <Input type="checkbox" label="Competitions" onClick={this.handleCompetition}/>
+                        <Col md={4} xs={4} className="secondCategory" style={{cursor: 'pointer'}} onClick={this.handleCompetition}>
+                            <p className="categoryText"> Competitions</p>
                         </Col>
-                        <Col md={4} xs={4}>
-                            <Input type="checkbox" label="Fitness" onClick={this.handleFitness} />
+                        <Col md={4} xs={4} className="thirdCategory" style={{cursor: 'pointer'}} onClick={this.handleFitness}>
+                            <p className="categoryText"> Fitness</p>
                         </Col>
                     </Row>
                 </Grid>
-                <EventWidget widgets={this.getWidgets()} widgetSelected={this.handleWidgetSelect}/>
-                {this.state.events.map(event=>{
-                    event.title="dfg";
-                    return(
-                        <Event key={Math.random()} event={event} />
-                    )
-                })}
+                <div className="profileWidgets">
+                    <EventWidget widgets={this.getWidgets()} widgetSelected={this.handleWidgetSelect} selectedWidgets={this.state.selectedWidgets}/>
+                    {this.state.events.map(event=>{
+                        event.title="dfg";
+                        return(
+                            <Event key={Math.random()} event={event} />
+                        )
+                    })}
+                </div>
             </div>
         )
     }
 });
 export default AthleteProfile;
+
+//TODO add event ID
+//TODO add event title
+//TODO add Question ID.
+//TODO add schemas.
+//TODO add competition and fitness form
+//TODO Add answers functionality.
+//TODO move EventWidget to iterate on each widget at first place?
+//TODO test everything.

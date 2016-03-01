@@ -8,18 +8,12 @@ let ProfileHeader = React.createClass({
     render(){
         return(
             <Grid className="profileHeader">
-                <div className="im-centered">
                     <Row>
                         <Col xs={4} md={4}>
-                            <Image src="/images/coach.gif" rounded/>
                         </Col>
+                        <Image src="/images/coach.gif" rounded/>
+                        <span className="profileTitle"><h4 className="inline">{this.props.username}</h4></span>
                     </Row>
-                    <Row>
-                        <Col xs={4} md={4} className="profileTitle">
-                            <h4>{this.props.username}</h4>
-                        </Col>
-                    </Row>
-                </div>
             </Grid>
         )
     }

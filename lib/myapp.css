@@ -53,15 +53,14 @@ li {
     max-width: 300px;
 }
 .profileTitle{
-    margin-left: 10px;
-    text-align: center;
+
 }
 .profileHeader{
     margin-top: 40px;
-    border-bottom: 1px solid #7062e2;
 }
 .profileBody{
     margin-top: 10px;
+    text-align: center;
 }
 .submitEvent{
     margin-top: 10px;
@@ -146,7 +145,41 @@ li {
     margin-left: 20px;
     padding-bottom: 10px;
 }
-.zeroPadding{
+.widgetWrapper{
+    text-align: center;
     padding-left: 0;
     padding-right: 0;
+    border-radius:10px;
+    margin: 10px;
+}
+.blockHref{
+    display: block;
+}
+.category{
+
+}
+body{
+    margin:0;
+}
+.firstCategory{
+    background-color: #A5CCD9;
+}
+
+.secondCategory{
+    background-color: #BBB2C0;
+}
+.thirdCategory{
+    background-color: #FED2D2;
+}
+.categoryText{
+    margin-top: 15px;
+}
+.widgetName{
+    margin-top: 5px;
+}
+.profileWidgets{
+    background-color: #FAF1E7;
+}
+.inline{
+    display: inline;
 }
